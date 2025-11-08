@@ -601,3 +601,78 @@ npm run dev
 (เช่น “Google Studio Code AI”, “v0.dev”, หรือ “ChatGPT โหมด Developer”)
 เพราะแต่ละตัวมีรูปแบบรับ prompt ไม่เหมือนกัน — ผมจะจัดให้เข้ากับระบบนั้นได้เลย.
 
+
+ด้านล่างคือรายการ **endpoint ทั้งหมด** ของ Bitkub Online Co., Ltd. API ที่มีการระบุไว้ในเอกสาร (เวอร์ชัน v3 + v4) แบ่งตามหมวดหมู่ให้ เพื่อคุณจะเอาไปใช้อ้างอิงได้ง่ายขึ้นครับ
+
+> หมายเหตุ: รายการอาจไม่ครบ 100% ทุกเส้นทางย่อย (เนื่องจากเอกสารบางส่วนอาจซ่อนหรือมีการแก้ไข) — แนะนำให้เข้า repo จริงเพื่อดูรายละเอียดเต็ม
+
+---
+
+### ✅ รายการ Endpoint
+
+#### Public / Market Data (v3)
+
+* `GET /api/servertime` — ดูเวลาเซิร์ฟเวอร์ (v3) ([api.bitkub.com][1])
+* `GET /api/market/symbols` — ดึงรายการคู่เหรียญ (v3) ([api.bitkub.com][1])
+* `GET /api/market/ticker` — ดึงราคาล่าสุดของคู่เหรียญทั้งหมด (v3) ([api.bitkub.com][2])
+* `GET /api/market/bids?symbol=…` — ดึง bids ใน Order-book (v3) ([api.bitkub.com][1])
+* `GET /api/market/asks?symbol=…` — ดึง asks ใน Order-book (v3) ([api.bitkub.com][3])
+* `GET /api/market/depth?symbol=…` — ดึง depth (bids+asks) (v3) ([api.bitkub.com][1])
+* `GET /api/market/trades?symbol=…` — ดึงรายการ recent trades (v3) ([api.bitkub.com][1])
+
+#### Private / Trading API (v3)
+
+* `POST /api/market/wallet` — ดึงยอดเงินของผู้ใช้ (wallet) (v3) ([‎ Bitkub Exchange][4])
+* `POST /api/market/balances` — ดึงยอดรวม (balances) (v3) ([api.bitkub.com][5])
+* `POST /api/market/place-bid` — สั่งซื้อ (bid) (v3) ([api.bitkub.com][1])
+* `POST /api/market/place-ask` — สั่งขาย (ask) (v3) ([api.bitkub.com][1])
+* `POST /api/market/cancel-order` — ยกเลิกคำสั่งซื้อ/ขาย (v3) ([api.bitkub.com][1])
+* `GET /api/market/my-open-orders` — ดึงคำสั่งซื้อ/ขายที่เปิดอยู่ (v3) ([api.bitkub.com][5])
+* `GET /api/market/my-order-history` — ประวัติคำสั่งซื้อ/ขาย (v3) ([api.bitkub.com][5])
+* `GET /api/market/order-info?orderId=…` — รายละเอียดคำสั่ง (v3) ([api.bitkub.com][5])
+
+#### Crypto API (v4)
+
+* `GET /api/v4/crypto/coins` — ดึงรายการเหรียญที่รองรับ (v4) ([api.bitkub.com][6])
+* `GET /api/v4/crypto/addresses?coin=…` — ดูที่อยู่ฝากเหรียญ (v4) ([api-jp.bitkub.com][7])
+* `POST /api/v4/crypto/addresses` — สร้าง/ขอที่อยู่ฝากเหรียญ (v4) ([api.bitkub.com][1])
+* `GET /api/v4/crypto/deposits?coin=…` — ประวัติการฝากเหรียญ (v4) ([‎ Bitkub Exchange][8])
+* `GET /api/v4/crypto/withdraws?coin=…` — ประวัติการถอนเหรียญ (v4) ([api.bitkub.com][1])
+* `POST /api/v4/crypto/withdraws` — สั่งถอนเหรียญ (v4) ([api.bitkub.com][1])
+* `GET /api/v4/crypto/compensations` — ดูข้อมูลชดเชย (compensations) (v4) ([api-jp.bitkub.com][9])
+
+#### Fiat API & Others (v3)
+
+* `POST /api/v3/fiat/accounts` — ดึงบัญชี fiat (v3) ([api.bitkub.com][5])
+* `POST /api/v3/fiat/withdraw` — ถอนเงิน fiat (v3) ([api.bitkub.com][10])
+* `POST /api/v3/fiat/deposit-history` — ประวัติฝากเงิน fiat (v3) ([api.bitkub.com][1])
+* `POST /api/v3/fiat/withdraw-history` — ประวัติถอนเงิน fiat (v3) ([api.bitkub.com][1])
+* `GET /api/history` — ดูประวัติทั่วไป (v3) ([api.bitkub.com][1])
+* `POST /api/v3/user/trading-credits` — ดูเครดิตการเทรด (v3) ([‎ Bitkub Exchange][11])
+* `POST /api/v3/user/limits` — ดู/ตั้งขีดจำกัด (v3) ([‎ Bitkub Exchange][11])
+
+---
+
+### 📌 หมายเหตุที่ควรรู้
+
+* มีการแจ้งว่า Public Crypto API v3 บางเส้นถูกยกเลิกและแนะนำให้ไปใช้ v4 แทน ([‎ Bitkub Exchange][8])
+* เอกสาร “Authentication” ให้ภาพรวมของ endpoint ต่าง ๆ ตามหมวดข้างบน ([api.bitkub.com][5])
+* สำหรับแต่ละ endpoint ให้ตรวจสอบ spec (query params/body) ใน repo หรือเอกสารจริงอีกครั้งเพื่อใช้ถูกต้อง
+
+---
+
+ถ้าคุณต้องการ ผมสามารถ **ส่งไฟล์ PDF หรือ Markdown** ที่มีรายการทั้งหมด (พร้อมประเภท GET/POST, required params, sample response) ให้คุณดาวน์โหลดได้เลย — ต้องการไหมครับ?
+
+[1]: https://api.bitkub.com/docs?utm_source=chatgpt.com "Bitkub API Documentation"
+[2]: https://api.bitkub.com/docs/endpoint/api/v3/market/ticker?method=GET&utm_source=chatgpt.com "Ticker"
+[3]: https://api.bitkub.com/docs/endpoint/api/v3/market/asks?method=GET&utm_source=chatgpt.com "Asks"
+[4]: https://support.bitkub.com/en/support/solutions/articles/151000199019-faq-for-api-users?utm_source=chatgpt.com "FAQ for API Users"
+[5]: https://api.bitkub.com/docs/authentication?utm_source=chatgpt.com "Authentication"
+[6]: https://api.bitkub.com/docs/endpoint/api/v4/crypto/coins?method=GET&utm_source=chatgpt.com "Coins"
+[7]: https://api-jp.bitkub.com/docs/endpoint/api/v4/crypto/addresses?method=GET&utm_source=chatgpt.com "Addresses"
+[8]: https://support.bitkub.com/th/support/solutions/articles/151000206378-%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%81%E0%B8%B2%E0%B8%A8%E0%B9%81%E0%B8%88%E0%B9%89%E0%B8%87-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A2%E0%B8%81%E0%B9%80%E0%B8%A5%E0%B8%B4%E0%B8%81-public-api-v3-crypto-endpoint-%E0%B9%80%E0%B8%AA%E0%B9%89%E0%B8%99%E0%B9%80%E0%B8%94%E0%B8%B4%E0%B8%A1-%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B9%80%E0%B8%9B%E0%B8%B4%E0%B8%94%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99-public-api-v4-crypto-endpo?utm_source=chatgpt.com "ประกาศแจ้ง: การยกเลิก Public API V3 Crypto Endpoint เส้นเดิม ..."
+[9]: https://api-jp.bitkub.com/docs/endpoint/api/v4/crypto/compensations?method=GET&utm_source=chatgpt.com "Compensations"
+[10]: https://api.bitkub.com/docs/endpoint/api/v3/fiat/withdraw?method=POST&utm_source=chatgpt.com "Withdraw"
+[11]: https://support.bitkub.com/en/support/solutions/articles/151000167911-change-of-signature-signing-and-permission-setting-for-public-api-public-api-secure-endpoint-v3-?utm_source=chatgpt.com "New Signature Signing and Permission Setting for Public API"
+
+
